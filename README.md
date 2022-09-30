@@ -24,7 +24,7 @@ When releasing the software
   with:
     project_path: "thinkei/bump-it-test"
     range: ${{ github.sha }}
-    github_token: ${{ secrets.AUTH_TOKEN }}
+    auth_token: ${{ secrets.AUTH_TOKEN }}
     dry_run: true
 ```
 
