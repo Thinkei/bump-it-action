@@ -20,7 +20,7 @@ When releasing the software
 ### Simple
 
 ```yaml
-- uses: thinkei/bump-it-action@v1.0.0
+- uses: thinkei/bump-it-action@v1.0.1
   with:
     project_path: "thinkei/bump-it-test"
     range: ${{ github.sha }}
