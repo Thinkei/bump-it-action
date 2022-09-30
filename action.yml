@@ -1,0 +1,29 @@
+name: 'bump-it-action'
+description: 'This action triggers a release flow by following semver versioning'
+author: 'hpsony94'
+branding:
+  icon: 'trending-up'
+  color: 'green'
+inputs:
+  range:
+    description: "The commit hash which you want to release."
+    required: true
+    default: ''
+  project_path:
+    description: "Git repository path where you want to use"
+    required: true
+    default: "thinkei/bump-it-test"
+  auth_token:
+    description: "Key authentication"
+    required: true
+    default: "secret123"
+  dry_run:
+    description: "Preview the changelogs and predicted semver version before releasing it"
+    default: true
+outputs:
+  result:
+    description: result
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

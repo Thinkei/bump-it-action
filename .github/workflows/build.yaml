@@ -1,0 +1,50 @@
+name: Build
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    paths-ignore:
+      - '**.md'
+    branches:
+      - master
+    tags:
+      - v**
+
+jobs:
+  build-docker:
+    name: Build docker image
+    runs-on: ci-general
+    steps:
+    - uses: actions/checkout@v3
+    - name: Generate Docker meta names
+      uses: docker/metadata-action@v3
+      id: meta
+      with:
+        images: thinkei/bump-it-action
+        tags: |
+          type=ref,event=tag
+          type=raw,enable=${{ !startsWith(github.ref, 'refs/tags/') }},value=master
+    - name: Build Docker image
+      uses: docker/build-push-action@v2
+      with:
+        push: false
+        file: Dockerfile
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        context: .
+
+  actions_self-test:
+    name: Run self-test for actions
+    runs-on: ci-general
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        name: self
+        id: self
+        with:
+          range: ${{ github.sha }}
+          project_path: "thinkei/bump-it-action"
+          auth_token: ${{ secrets.AUTH_TOKEN_BUMP_IT }}
+          dry_run: true
